@@ -6,6 +6,17 @@ const typeDefs = `
     yubiKeyId: String
     password: String
   }
+  type Message {
+    id: ID!
+    message: String
+    createdAt: Int
+    creator: User
+  }
+  type Thread {
+    id: ID!
+    messages: [Message]
+    createdAt: Int
+  }
   type Book {
     id: ID!
     title: String
@@ -24,6 +35,11 @@ const typeDefs = `
     allBooks: [Book]
     getBook(id: ID!): Book
     allUsers: [User]
+    allMessagesInThread: [Message]
+    allThreads: [Thread]
+  }
+  type Mutation {
+    addUser(firstName: String, lastName: String, yubiKeyId: String, password: String): User
   }
 `;
 

@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 const sequelize = new Sequelize(
-  'hurs',
+  'RTmsgWI',
   'root',
   '',
   {
@@ -35,6 +35,37 @@ const Users = sequelize.define('User', {
     },
 });
 
+const Messages = sequelize.define('Message', {
+  id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+  },
+  message: {
+      type: DataTypes.STRING,
+  },
+  createdAt: {
+      type: DataTypes.INTEGER,
+  },
+  creator: {
+      type: DataTypes.STRING,
+  },
+});
+
+const Threads = sequelize.define('Thread', {
+  id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+  },
+  createdAt: {
+    type: DataTypes.INTEGER,
+  },
+});
+
+Users.hasOne(Messages, { sourceKeyL: 'id' });
+Threads.hasMany(Messages, { sourceKey: 'id' });
+
 module.exports = {
-  sequelize, Op, Users
+  sequelize, Op, Users, Messages, Threads,
 };

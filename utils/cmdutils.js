@@ -1,6 +1,6 @@
 const {sequelize} = require('../database');
 
-const syncMySqlDB = () => {
+const syncMySqlDB = async () => {
     await sequelize.sync({
         alter: true
     })

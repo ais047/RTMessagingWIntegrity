@@ -1,10 +1,9 @@
-const { Users } = require('../database');
+const { Users, Messages, Threads } = require('../database');
 
 const createUser = async (input) => {
   const res = await Users.create(input);
-  return res
+  return res.get()
 };
-// createUser({firstName: 'John'})
 
 const getAllUsers = async () => {
   const res = await Users.findAll({
@@ -13,6 +12,17 @@ const getAllUsers = async () => {
   return res
 }
 
+const getAllMessagesInThread = async (threadId) => {
+  const res = await Users.findAll({
+    where: {
+      id: threadId
+    },
+    raw: true
+  });
+  return res
+}
+
+// Sample Seed
 const books = [
   {
     id: 1,
@@ -38,8 +48,18 @@ const resolvers = {
     getBook (parent, args, context, info) {
       console.log(args)
       return books.find(book => book.id == args.id)
-    }
+    },
+    allMessagesInThread: (parent, args, context, info) => {
+      getAllMessagesInThread(args.id)
+    },
+    allThreads: () => getAllThreads()
   },
+  Mutation: {
+    addUser: async (parent, args, context, info) => {
+      console.log(args)
+      return await createUser(args)
+    }
+  }
 };
 
 module.exports = resolvers
